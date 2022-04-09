@@ -14,6 +14,12 @@ namespace Mindmagma.Curses
             NativeExceptionHelper.ThrowOnFailure(result, nameof(Box));
         }
 
+        public static void EraseWindow(IntPtr window)
+        {
+            int result = Native.werase(window);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(EraseWindow));
+        }
+
         public static void ClearWindow(IntPtr window)
         {
             int result = Native.wclear(window);
@@ -47,6 +53,14 @@ namespace Mindmagma.Curses
             return result;
         }
 
+        public static void GetBegYX(IntPtr window, out int y, out int x)
+        {
+            y = Native.getbegy(window);
+            NativeExceptionHelper.ThrowOnFailure(y, nameof(GetBegYX));
+            x = Native.getbegx(window);
+            NativeExceptionHelper.ThrowOnFailure(x, nameof(GetBegYX));
+        }
+
         public static void GetMaxYX(IntPtr window, out int y, out int x)
         {
             y = Native.getmaxy(window);
@@ -63,6 +77,12 @@ namespace Mindmagma.Curses
             NativeExceptionHelper.ThrowOnFailure(x, nameof(GetYX));
         }
 
+        public static void WindowMove(IntPtr window, int y, int x)
+        {
+            int result = Native.wmove(window, y, x);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(WindowMove));
+        }
+
         public static void Keypad(IntPtr window, bool enable)
         {
             int result = Native.keypad(window, enable);
@@ -72,6 +92,27 @@ namespace Mindmagma.Curses
         public static int MoveWindowAddString(IntPtr window, int y, int x, string message)
         {
             int result = Native.mvwaddstr(window, y, x, message);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(MoveWindowAddString));
+            return result;
+        }
+
+        public static int MoveWindowAddNString(IntPtr window, int y, int x, string message, int n)
+        {
+            int result = Native.mvwaddnstr(window, y, x, message, n);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(MoveWindowAddString));
+            return result;
+        }
+
+        public static int MoveWindowAddWideString(IntPtr window, int y, int x, string message)
+        {
+            int result = Native.mvwaddwstr(window, y, x, message);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(MoveWindowAddString));
+            return result;
+        }
+
+        public static int MoveWindowAddNWideString(IntPtr window, int y, int x, string message, int n)
+        {
+            int result = Native.mvwaddnwstr(window, y, x, message, n);
             NativeExceptionHelper.ThrowOnFailure(result, nameof(MoveWindowAddString));
             return result;
         }
@@ -153,6 +194,48 @@ namespace Mindmagma.Curses
             return result;
         }
 
+        public static int WindowAddNString(IntPtr window, string message, int n)
+        {
+            int result = Native.waddnstr(window, message, n);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(WindowAddNString));
+            return result;
+        }
+
+        public static int WindowAddWideString(IntPtr window, string message)
+        {
+            int result = Native.waddwstr(window, message);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(WindowAddWideString));
+            return result;
+        }
+
+        public static int WindowAddNWideString(IntPtr window, string message, int n)
+        {
+            int result = Native.waddnwstr(window, message, n);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(WindowAddNWideString));
+            return result;
+        }
+
+        public static int WindowAttributeOff(IntPtr window, uint attribute)
+        {
+            int result = Native.wattroff(window, attribute);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(WindowAttributeOff));
+            return result;
+        }
+
+        public static int WindowAttributeOn(IntPtr window, uint attribute)
+        {
+            int result = Native.wattron(window, attribute);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(WindowAttributeOn));
+            return result;
+        }
+
+        public static int WindowAttributeSet(IntPtr window, uint attribute)
+        {
+            int result = Native.wattrset(window, attribute);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(WindowAttributeSet));
+            return result;
+        }
+
         public static void WindowBackground(IntPtr window, uint ch)
         {
             int result = Native.wbkgd(window, ch);
@@ -172,10 +255,24 @@ namespace Mindmagma.Curses
             return result;
         }
 
+        public static int MoveWindowGetChar(IntPtr window)
+        {
+            int result = Native.mvwgetch(window);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(MoveWindowGetChar));
+            return result;
+        }
+
         public static int WindowRefresh(IntPtr window)
         {
             int result = Native.wrefresh(window);
             NativeExceptionHelper.ThrowOnFailure(result, nameof(WindowRefresh));
+            return result;
+        }
+
+        public static int WindowResize(IntPtr window, int lines, int columns)
+        {
+            int result = Native.wresize(window, lines, columns);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(WindowResize));
             return result;
         }
 

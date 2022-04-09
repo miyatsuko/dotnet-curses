@@ -21,6 +21,27 @@ namespace Mindmagma.Curses
             return result;
         }
 
+        public static int AddNString(string stringToAdd, int n)
+        {
+            int result = Native.addnstr(stringToAdd, n);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(AddNString));
+            return result;
+        }
+
+        public static int AddWideString(string stringToAdd)
+        {
+            int result = Native.addwstr(stringToAdd);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(AddWideString));
+            return result;
+        }
+
+        public static int AddWideNString(string stringToAdd, int n)
+        {
+            int result = Native.addnwstr(stringToAdd, n);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(AddWideNString));
+            return result;
+        }
+
         public static void AssumeDefaultColors(int f, int b)
         {
             int result = Native.assume_default_colors(f, b);
@@ -81,6 +102,12 @@ namespace Mindmagma.Curses
             NativeExceptionHelper.ThrowOnFailure(result, nameof(ColorContent));
         }
 
+        public static void ExtendedColorContent(int color, out int red, out int green, out int blue)
+        {
+            int result = Native.extended_color_content(color, out red, out green, out blue);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(ExtendedColorContent));
+        }
+
         public static uint ColorPair(int pairNumber)
         {
             return Native.COLOR_PAIR(pairNumber);
@@ -134,6 +161,12 @@ namespace Mindmagma.Curses
             return result;
         }
 
+        public static int MoveGetChar()
+        {
+            int result = Native.mvgetch(); // -1 is no character buffered, not ERR
+            return result;
+        }
+
         public static void GetMouse(out MouseEvent mouseEvent)
         {
             int result = Native.getmouse(out mouseEvent);
@@ -158,10 +191,23 @@ namespace Mindmagma.Curses
             NativeExceptionHelper.ThrowOnFailure(result, nameof(InitColor));
         }
 
+        public static void InitExtendedColor(int color, int red, int green, int blue)
+        {
+            int result = Native.init_extended_color(color, red, green, blue);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(InitExtendedColor));
+        }
+
         public static int InitPair(short color, short foreground, short background)
         {
             int result = Native.init_pair(color, foreground, background);
             NativeExceptionHelper.ThrowOnFailure(result, nameof(InitPair));
+            return result;
+        }
+
+        public static int InitExtendedPair(int color, int foreground, int background)
+        {
+            int result = Native.init_extended_pair(color, foreground, background);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(InitExtendedPair));
             return result;
         }
 
@@ -203,10 +249,42 @@ namespace Mindmagma.Curses
             return result;
         }
 
+        public static int MoveAddNString(int y, int x, string message, int numberOfCharacters)
+        {
+            int result = Native.mvaddnstr(y, x, message, numberOfCharacters);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(MoveAddNString));
+            return result;
+        }
+
+        public static int MoveAddWideString(int y, int x, string message)
+        {
+            int result = Native.mvaddwstr(y, x, message);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(MoveAddWideString));
+            return result;
+        }
+
+        public static int MoveAddNWideString(int y, int x, string message, int numberOfCharacters)
+        {
+            int result = Native.mvaddnwstr(y, x, message, numberOfCharacters);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(MoveAddNWideString));
+            return result;
+        }
+
         public static void PairContent(short pair, out short fg, out short bg)
         {
             int result = Native.pair_content(pair, out fg, out bg);
             NativeExceptionHelper.ThrowOnFailure(result, nameof(PairContent));
+        }
+
+        public static void ExtendedPairContent(int pair, out int fg, out int bg)
+        {
+            int result = Native.extended_pair_content(pair, out fg, out bg);
+            NativeExceptionHelper.ThrowOnFailure(result, nameof(ExtendedPairContent));
+        }
+
+        public static void ResetColorPairs()
+        {
+            Native.reset_color_pairs();
         }
 
         public static short PairNumber(uint pairNumber)

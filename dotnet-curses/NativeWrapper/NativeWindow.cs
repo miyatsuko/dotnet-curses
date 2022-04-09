@@ -47,6 +47,16 @@ namespace Mindmagma.Curses.Interop
         internal static int getcury(IntPtr window) => call_getcury(window);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_getbegx(IntPtr window);
+        private static dt_getbegx call_getbegx = NativeToDelegate<dt_getbegx>("getbegx");
+        internal static int getbegx(IntPtr window) => call_getbegx(window);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_getbegy(IntPtr window);
+        private static dt_getbegy call_getbegy = NativeToDelegate<dt_getbegy>("getbegy");
+        internal static int getbegy(IntPtr window) => call_getbegy(window);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_getmaxx(IntPtr window);
         private static dt_getmaxx call_getmaxx = NativeToDelegate<dt_getmaxx>("getmaxx");
         internal static int getmaxx(IntPtr window) => call_getmaxx(window);
@@ -57,14 +67,34 @@ namespace Mindmagma.Curses.Interop
         internal static int getmaxy(IntPtr window) => call_getmaxy(window);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_wmove(IntPtr window, int y, int x);
+        private static dt_wmove call_wmove = NativeToDelegate<dt_wmove>("wmove");
+        internal static int wmove(IntPtr window, int y, int x) => call_wmove(window, y, x);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_keypad(IntPtr window, bool enable);
         private static dt_keypad call_keypad = NativeToDelegate<dt_keypad>("keypad");
         internal static int keypad(IntPtr window, bool enable) => call_keypad(window, enable);
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         private delegate int dt_mvwaddstr(IntPtr window, int y, int x, string message);
         private static dt_mvwaddstr call_mvwaddstr = NativeToDelegate<dt_mvwaddstr>("mvwaddstr");
         internal static int mvwaddstr(IntPtr window, int y, int x, string message) => call_mvwaddstr(window, y, x, message);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private delegate int dt_mvwaddnstr(IntPtr window, int y, int x, string message, int n);
+        private static dt_mvwaddnstr call_mvwaddnstr = NativeToDelegate<dt_mvwaddnstr>("mvwaddnstr");
+        internal static int mvwaddnstr(IntPtr window, int y, int x, string message, int n) => call_mvwaddnstr(window, y, x, message, n);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_mvwaddwstr(IntPtr window, int y, int x, byte[] message);
+        private static dt_mvwaddwstr call_mvwaddwstr = NativeToDelegate<dt_mvwaddwstr>("mvwaddwstr");
+        internal static int mvwaddwstr(IntPtr window, int y, int x, string message) => call_mvwaddwstr(window, y, x, Encoding.UTF32.GetBytes(message));
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_mvwaddnwstr(IntPtr window, int y, int x, byte[] message, int n);
+        private static dt_mvwaddnwstr call_mvwaddnwstr = NativeToDelegate<dt_mvwaddnwstr>("mvwaddnwstr");
+        internal static int mvwaddnwstr(IntPtr window, int y, int x, string message, int n) => call_mvwaddnwstr(window, y, x, Encoding.UTF32.GetBytes(message), n);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_mvwin(IntPtr window, int row, int column);
@@ -132,6 +162,31 @@ namespace Mindmagma.Curses.Interop
         internal static int waddnstr(IntPtr win, String str, int n) => call_waddnstr(win, str, n);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_waddwstr(IntPtr window, byte[] message);
+        private static dt_waddwstr call_waddwstr = NativeToDelegate<dt_waddwstr>("waddwstr");
+        internal static int waddwstr(IntPtr window, string message) => call_waddwstr(window, Encoding.UTF32.GetBytes(message));
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_waddnwstr(IntPtr window, byte[] message, int n);
+        private static dt_waddnwstr call_waddnwstr = NativeToDelegate<dt_waddnwstr>("waddnwstr");
+        internal static int waddnwstr(IntPtr window, string message, int n) => call_waddnwstr(window, Encoding.UTF32.GetBytes(message), n);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private delegate int dt_wattroff(IntPtr win, uint attributes);
+        private static dt_wattroff call_wattroff = NativeToDelegate<dt_wattroff>("wattroff");
+        internal static int wattroff(IntPtr win, uint attributes) => call_wattroff(win, attributes);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private delegate int dt_wattron(IntPtr win, uint attributes);
+        private static dt_wattron call_wattron = NativeToDelegate<dt_wattron>("wattron");
+        internal static int wattron(IntPtr win, uint attributes) => call_wattron(win, attributes);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private delegate int dt_wattrset(IntPtr win, uint attributes);
+        private static dt_wattrset call_wattrset = NativeToDelegate<dt_wattrset>("wattrset");
+        internal static int wattrset(IntPtr win, uint attributes) => call_wattrset(win, attributes);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_wbkgd(IntPtr window, uint ch);
         private static dt_wbkgd call_wbkgd = NativeToDelegate<dt_wbkgd>("wbkgd");
         internal static int wbkgd(IntPtr window, uint ch) => call_wbkgd(window, ch);
@@ -141,6 +196,11 @@ namespace Mindmagma.Curses.Interop
         private static dt_wborder call_wborder = NativeToDelegate<dt_wborder>("wborder");
         internal static int wborder(IntPtr window, char leftSide, char rightSide, char topSide, char bottomSide, char topLeftHandCorner, char topRightHandCorner, char bottomLeftHandCorner, char bottomRightHandCorner)
             => call_wborder(window, leftSide, rightSide, topSide, bottomSide, topLeftHandCorner, topRightHandCorner, bottomLeftHandCorner, bottomRightHandCorner);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_werase(IntPtr window);
+        private static dt_werase call_werase = NativeToDelegate<dt_werase>("werase");
+        internal static int werase(IntPtr window) => call_werase(window);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_wclear(IntPtr window);
@@ -153,9 +213,19 @@ namespace Mindmagma.Curses.Interop
         internal static int wgetch(IntPtr win) => call_wgetch(win);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_mvwgetch(IntPtr win);
+        private static dt_mvwgetch call_mvwgetch = NativeToDelegate<dt_mvwgetch>("mvwgetch");
+        internal static int mvwgetch(IntPtr win) => call_mvwgetch(win);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_wrefresh(IntPtr win);
         private static dt_wrefresh call_wrefresh = NativeToDelegate<dt_wrefresh>("wrefresh");
         internal static int wrefresh(IntPtr win) => call_wrefresh(win);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_wresize(IntPtr win, int lines, int columns);
+        private static dt_wresize call_wresize = NativeToDelegate<dt_wresize>("wresize");
+        internal static int wresize(IntPtr win, int lines, int columns) => call_wresize(win, lines, columns);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_wscrl(IntPtr window, int numberOfLines);

@@ -25,6 +25,21 @@ namespace Mindmagma.Curses.Interop
         private static dt_addstr call_addstr = NativeToDelegate<dt_addstr>("addstr");
         internal static int addstr(string str) => call_addstr(str);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private delegate int dt_addnstr(string str, int n);
+        private static dt_addnstr call_addnstr = NativeToDelegate<dt_addnstr>("addnstr");
+        internal static int addnstr(string str, int n) => call_addnstr(str, n);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_addwstr(string str);
+        private static dt_addwstr call_addwstr = NativeToDelegate<dt_addwstr>("addwstr");
+        internal static int addwstr(string str) => call_addwstr(str);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_addnwstr(string str, int n);
+        private static dt_addnwstr call_addnwstr = NativeToDelegate<dt_addnwstr>("addnwstr");
+        internal static int addnwstr(string str, int n) => call_addnwstr(str, n);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_attroff(uint attributes);
         private static dt_attroff call_attroff = NativeToDelegate<dt_attroff>("attroff");
@@ -59,6 +74,11 @@ namespace Mindmagma.Curses.Interop
         private delegate int dt_color_content(short color, out short red, out short green, out short blue);
         private static dt_color_content call_color_content = NativeToDelegate<dt_color_content>("color_content");
         internal static int color_content(short color, out short red, out short green, out short blue) => call_color_content(color, out red, out green, out blue);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_extended_color_content(int color, out int red, out int green, out int blue);
+        private static dt_extended_color_content call_extended_color_content = NativeToDelegate<dt_extended_color_content>("extended_color_content");
+        internal static int extended_color_content(int color, out int red, out int green, out int blue) => call_extended_color_content(color, out red, out green, out blue);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate uint dt_COLOR_PAIR(int n);
@@ -121,6 +141,11 @@ namespace Mindmagma.Curses.Interop
         internal static int getch() => call_getch();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_mvgetch();
+        private static dt_mvgetch call_mvgetch = NativeToDelegate<dt_mvgetch>("mvgetch");
+        internal static int mvgetch() => call_mvgetch();
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_getmouse(out MouseEvent mouseEvent);
         private static dt_getmouse call_getmouse = NativeToDelegate<dt_getmouse>("getmouse");
         internal static int getmouse(out MouseEvent mouseEvent) => call_getmouse(out mouseEvent);
@@ -141,9 +166,19 @@ namespace Mindmagma.Curses.Interop
         internal static int init_color(short color, short red, short green, short blue) => call_init_color(color, red, green, blue);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_init_extended_color(int color, int red, int green, int blue);
+        private static dt_init_extended_color call_init_extended_color = NativeToDelegate<dt_init_extended_color>("init_extended_color");
+        internal static int init_extended_color(int color, int red, int green, int blue) => call_init_extended_color(color, red, green, blue);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_init_pair(short color, short fg, short bg);
         private static dt_init_pair call_init_pair = NativeToDelegate<dt_init_pair>("init_pair");
         internal static int init_pair(short color, short fg, short bg) => call_init_pair(color, fg, bg);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_init_extended_pair(int color, int fg, int bg);
+        private static dt_init_extended_pair call_init_extended_pair = NativeToDelegate<dt_init_extended_pair>("init_extended_pair");
+        internal static int init_extended_pair(int color, int fg, int bg) => call_init_extended_pair(color, fg, bg);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_insch(uint character);
@@ -181,14 +216,24 @@ namespace Mindmagma.Curses.Interop
         internal static int mvaddchstr(int row, int column, uint character) => call_mvaddchstr(row, column, character);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int dt_mvaddnstr(int row, int column, uint character, int numberOfCharacters);
-        private static dt_mvaddnstr call_mvaddnstr = NativeToDelegate<dt_mvaddnstr>("mvaddnstr");
-        internal static int mvaddnstr(int row, int column, uint character, int numberOfCharacters) => call_mvaddnstr(row, column, character, numberOfCharacters);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_mvaddstr(int row, int column, string message);
         private static dt_mvaddstr call_mvaddstr = NativeToDelegate<dt_mvaddstr>("mvaddstr");
         internal static int mvaddstr(int row, int column, string message) => call_mvaddstr(row, column, message);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_mvaddnstr(int row, int column, string message, int numberOfCharacters);
+        private static dt_mvaddnstr call_mvaddnstr = NativeToDelegate<dt_mvaddnstr>("mvaddnstr");
+        internal static int mvaddnstr(int row, int column, string message, int numberOfCharacters) => call_mvaddnstr(row, column, message, numberOfCharacters);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_mvaddwstr(int row, int column, byte[] message);
+        private static dt_mvaddwstr call_mvaddwstr = NativeToDelegate<dt_mvaddwstr>("mvaddwstr");
+        internal static int mvaddwstr(int row, int column, string message) => call_mvaddwstr(row, column, Encoding.UTF32.GetBytes(message));
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_mvaddnwstr(int row, int column, byte[] message, int numberOfCharacters);
+        private static dt_mvaddnwstr call_mvaddnwstr = NativeToDelegate<dt_mvaddnwstr>("mvaddnwstr");
+        internal static int mvaddnwstr(int row, int column, string message, int numberOfCharacters) => call_mvaddnwstr(row, column, Encoding.UTF32.GetBytes(message), numberOfCharacters);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate short dt_PAIR_NUMBER(uint n);
@@ -199,6 +244,16 @@ namespace Mindmagma.Curses.Interop
         private delegate int dt_pair_content(short pair, out short fg, out short bg);
         private static dt_pair_content call_pair_content = NativeToDelegate<dt_pair_content>("pair_content");
         internal static int pair_content(short pair, out short fg, out short bg) => call_pair_content(pair, out fg, out bg);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int dt_extended_pair_content(int pair, out int fg, out int bg);
+        private static dt_extended_pair_content call_extended_pair_content = NativeToDelegate<dt_extended_pair_content>("extended_pair_content");
+        internal static int extended_pair_content(int pair, out int fg, out int bg) => call_extended_pair_content(pair, out fg, out bg);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void dt_reset_color_pairs();
+        private static dt_reset_color_pairs call_reset_color_pairs = NativeToDelegate<dt_reset_color_pairs>("reset_color_pairs");
+        internal static void reset_color_pairs() => call_reset_color_pairs();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int dt_refresh();
